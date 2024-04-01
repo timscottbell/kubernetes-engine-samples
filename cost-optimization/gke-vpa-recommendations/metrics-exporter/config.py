@@ -85,18 +85,8 @@ scale_group_by_fields = [
     'resource.label."controller_kind"',
     'resource.label."controller_name"']
 
-excluded_namespaces = [
-    "kube-system",
-    "istio-system",
-    "gatekeeper-system",
-    "gke-system",
-    "gmp-system",
-    "gke-gmp-system",
-    "gke-managed-filestorecsi",
-    "gke-mcs"]
-
-namespace_filter = ' AND '.join(
-    f'NOT resource.label.namespace_name = "{namespace}"' for namespace in excluded_namespaces)
+namespace_filter = \
+    'resource.label.container_name = one_of("ci", "webserver", "search", "liferay", "backup", "database")'
 
 NS_QUERY = MetricConfig(
     metric="kubernetes.io/container/cpu/core_usage_time",

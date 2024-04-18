@@ -53,7 +53,7 @@ aggregate AS (
     WHEN metric_name = "cpu_limit_cores" THEN AVG(metric_value) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
     WHEN metric_name = "cpu_request_utilization" THEN MAX(metric_value) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
     WHEN metric_name = "vpa_cpu_recommendation" THEN PERCENTILE_CONT(metric_value, 0.95) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
-    WHEN metric_name = "vpa_cpu_recommendation_max" THEN PERCENTILE_CONT(metric_value, 0.95) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
+    WHEN metric_name = "vpa_cpu_recommendation_max" THEN MAX(metric_value) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
     WHEN metric_name = "memory_usage" THEN MAX(metric_value) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
     WHEN metric_name = "memory_requested_bytes" THEN AVG(metric_value) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)
     WHEN metric_name = "memory_limit_bytes" THEN AVG(metric_value) OVER(PARTITION BY metric_name, project_id, location, cluster_name, controller_name, controller_type, namespace_name, container_name , run_date)

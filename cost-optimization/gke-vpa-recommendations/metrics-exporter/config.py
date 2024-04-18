@@ -86,7 +86,7 @@ scale_group_by_fields = [
     'resource.label."controller_name"']
 
 namespace_filter = \
-    'resource.label.container_name = one_of("ci", "webserver", "search", "liferay", "backup", "database")'
+    'resource.label.container_name = one_of("admin-client", "admin-server", "api", "api-scheduler", "console", "console-new", "git", "kubeapply", "mailhog", "provisioning")'
 
 NS_QUERY = MetricConfig(
     metric="kubernetes.io/container/cpu/core_usage_time",

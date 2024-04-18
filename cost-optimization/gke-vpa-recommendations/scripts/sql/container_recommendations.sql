@@ -121,13 +121,17 @@ SELECT
     memory_limit_mib,
     memory_request_utilization,
     cpu_requested_recommendation,
-  GREATEST((CASE
-    WHEN cpu_limit_mcores = 0 AND cpu_requested_mcores = 0 THEN CEIL(cpu_requested_recommendation)
-    WHEN cpu_limit_mcores = 0 AND cpu_requested_mcores > 0 THEN CEIL(cpu_requested_recommendation)
-    WHEN cpu_limit_mcores > 0 AND cpu_requested_mcores = 0 THEN CEIL(cpu_requested_recommendation)
-  ELSE
-  CEIL(cpu_requested_recommendation * SAFE_DIVIDE(cpu_limit_mcores, cpu_requested_mcores))
-END), CEIL(cpu_mcore_usage))
+  GREATEST(
+    (
+        CASE
+            WHEN cpu_limit_mcores = 0 AND cpu_requested_mcores = 0 THEN CEIL(cpu_requested_recommendation)
+            WHEN cpu_limit_mcores = 0 AND cpu_requested_mcores > 0 THEN CEIL(cpu_requested_recommendation)
+            WHEN cpu_limit_mcores > 0 AND cpu_requested_mcores = 0 THEN CEIL(cpu_requested_recommendation)
+        ELSE
+            CEIL(cpu_requested_recommendation * SAFE_DIVIDE(cpu_limit_mcores, cpu_requested_mcores))
+        END
+    ),
+    CEIL(cpu_mcore_usage))
   AS cpu_limit_recommendation,
   CEIL(GREATEST(memory_requested_recommendation, memory_mib_usage_max)) AS memory_requested_recommendation,
   CEIL(GREATEST(memory_requested_recommendation, memory_mib_usage_max)) AS memory_limit_recommendation,
